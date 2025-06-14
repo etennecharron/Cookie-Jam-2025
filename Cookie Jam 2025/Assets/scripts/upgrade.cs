@@ -1,29 +1,39 @@
 using UnityEngine;
-using System.Diagnostics;
 using System;
 public class Upgrade
 {
+    private int addition;
     private int mult;
+
     private string name;
     private int lvl;
-    private int[] cost = new int[MAXLVL];
-    public const int MAXLVL = 5;
+    private int[] cost;
+    public int maxLvl;
 
-    public Upgrade(string name, int lvl, int[] cost, int mult)
+    public Upgrade(string name, int[] cost, int addition)
     {
         this.name = name;
-        this.lvl = lvl;
         this.cost = cost;
-        this.mult = mult;
+        this.addition = addition;
+        this.maxLvl = cost.Length;
     }
 
     public int getMaxLvl()
     {
-        return MAXLVL;
+        return maxLvl;
     }
-    public int Skill()
+    public virtual void Skill()
+    {
+        Debug.Log("upgrades family");
+    }
+
+    public virtual int GetMult()
     {
         return mult;
+    }
+    public void SetMult(int mult)
+    {
+        this.mult = mult;
     }
 
     public string GetName()
@@ -43,15 +53,21 @@ public class Upgrade
     {
         return this.cost[lvl];
     }
-    public int getMult()
+    public int getAddition()
     {
-        return this.mult;
+        return this.addition;
     }
 
-
-    public int upgradeLvl()
+    public void SetAddition(int mult)
     {
-        SetLvl(GetLvl()+1);
-        return Skill();
+        this.addition = mult;
+    }
+    public virtual void upgradeLvl()
+    {
+        if (GetLvl() < getMaxLvl())
+        {
+            SetAddition(getAddition() * 2);
+            SetLvl(GetLvl() + 1);
+        }
     }
 }

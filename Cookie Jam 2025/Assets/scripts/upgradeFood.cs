@@ -1,17 +1,18 @@
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class UpgradeFood : Upgrade
 {
     
 
-    public UpgradeFood(string name, int lvl, int[] cost, int mult):base(name, lvl, cost, mult)
+    public UpgradeFood(string name, int[] cost, int addition) :base(name, cost, addition)
     {
 
     }
 
-    public new int Skill()
+    public override void Skill()
     {
-        return getMult();
+        Debug.Log("upgrade food");
     }
 
 }

@@ -905,7 +905,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 3
   m_Viewport: {fileID: 865324453}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 722864121}
@@ -1061,7 +1061,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currency: 0
-  currenyMult: 0
+  currenyAddition: 0
+  currencyMult: 0
   content: {fileID: 1041812801}
   upgradePrefab: {fileID: 6941315209227345395, guid: 4e6d57e7848a8c24dbf9520a04f54c10, type: 3}
   currencyGameObject: {fileID: 1204062125}
