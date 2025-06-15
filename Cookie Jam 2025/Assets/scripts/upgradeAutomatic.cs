@@ -10,7 +10,7 @@ public class UpgradeAutomatic : Upgrade
     {
         this.time = new float[cost.Length];
 
-        int j = time.Length;
+        int j = time.Length+1;
         for(int i = 0; i < time.Length; i++)
         {
             time[i] = second * j / time.Length;

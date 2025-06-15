@@ -6,11 +6,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEngine.Android.AndroidGame;
 
 public class player : MonoBehaviour
 {
 
-    public int currency;
+    public long currency;
     public int currenyAddition;
     public int currencyMult;
 
@@ -22,8 +23,14 @@ public class player : MonoBehaviour
 
     private Coroutine automaticFeeder;
 
+    float sizeAddition = 0.01f;
+    float sizeDiminution = 0.005f;
 
-    Upgrade[] upgrades = { new Upgrade("Better setup!", new[] {10,50,200,1000,5000}, 2), new UpgradeMutation("More mouth!", new[] { 2000, 15000, 1000000 }), new UpgradeAutomatic("Hire employee!", new[] {500, 2500,10000,100000}, 1), new Upgrade("Good vitamins!", new[] {250,5500,10000,15000}, 20), new UpgradeAutomatic("Feeding machines!",new[] {5000,15000,50000,100000},50)};
+    float diminutionTime = 0.1f;
+
+    public GameObject textBubble;
+
+    Upgrade[] upgrades = { new UpgradeFood("Better food!", new[] {50,1000,5000,10000,50000}, 2,0.001f), new UpgradeMutation("More mouth!", new[] { 10000, 100000, 10000000 }), new UpgradeAutomatic("Hire employee!", new[] {500, 2500,10000,100000}, 10), new Upgrade("Good vitamins!", new[] {250,5500,10000,15000}, 20), new UpgradeAutomatic("Feeding machines!",new[] {5000,15000,50000,100000},50)};
     GameObject[] upgradesBtns;
     public void loadUpgrades()
     {
@@ -35,7 +42,7 @@ public class player : MonoBehaviour
             GameObject upgrade = Instantiate(upgradePrefab);
 
             //hardcoded
-            upgrade.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Lvl 0 : " + upgrades[i].GetCost(upgrades[i].GetLvl()).ToString() + " $";
+            upgrade.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Lvl 0 : " + writeNumber(upgrades[i].GetCost(upgrades[i].GetLvl())) + " $";
             //hardcoded
             upgrade.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = upgrades[i].GetName().ToString();
             //hardcoded
@@ -48,8 +55,26 @@ public class player : MonoBehaviour
 
     public void GrowBigger()
     {
-        float addition = 0.005f;
-        monster.GetComponent<Transform>().localScale = new Vector3(monster.GetComponent<Transform>().localScale.x + addition, monster.GetComponent<Transform>().localScale.y + addition, monster.GetComponent<Transform>().localScale.z + addition);
+        
+        monster.GetComponent<Transform>().localScale = new Vector3(monster.GetComponent<Transform>().localScale.x + sizeAddition, monster.GetComponent<Transform>().localScale.y + sizeAddition, monster.GetComponent<Transform>().localScale.z + sizeAddition);
+
+    }
+    public void GrowSmaller()
+    {
+            if (monster.GetComponent<Transform>().localScale.x > 0.5f)
+        {
+            monster.GetComponent<Transform>().localScale = new Vector3(monster.GetComponent<Transform>().localScale.x - sizeDiminution, monster.GetComponent<Transform>().localScale.y - sizeDiminution, monster.GetComponent<Transform>().localScale.z - sizeDiminution);
+
+            if(monster.GetComponent<Transform>().localScale.x < 0.75f)
+            {
+                writeTextBubble("D:");
+            }
+        }
+        else
+        {
+            writeTextBubble("X - X");
+        }
+
 
     }
 
@@ -67,7 +92,12 @@ public class player : MonoBehaviour
 
     }
 
+    public void writeTextBubble(string message)
+    {
 
+      textBubble.GetComponent<TextMeshProUGUI>().text = message;
+
+    }
     public void ClickOnUpgrade(int index)
     {
 
@@ -111,6 +141,12 @@ public class player : MonoBehaviour
                         automatic.upgradeLvl();
                     }
                 }
+                else if (upgrades[index] is UpgradeFood foodUpgrader)
+                {
+                   sizeAddition += foodUpgrader.getHungerUpgrade();
+                    Debug.Log(sizeAddition);
+                    upgrades[index].upgradeLvl();
+                }
                 else
                 {
                     upgrades[index].Skill();
@@ -137,6 +173,7 @@ public class player : MonoBehaviour
 
     }
 
+    
     public IEnumerator FeedInterval(float interval,int index)
     {
         while (true)
@@ -149,6 +186,15 @@ public class player : MonoBehaviour
 
         }
     }
+
+    public IEnumerator LosingWeigth(float interval)
+    {
+        while (true) {
+            yield return new WaitForSeconds(interval);
+            GrowSmaller();
+              
+        }
+    }
     public void refreshMoney()
     {
         currencyGameObject.GetComponent<TextMeshProUGUI>().text = writeNumber(currency);
@@ -159,7 +205,7 @@ public class player : MonoBehaviour
 
     }
 
-    public string writeNumber(int number)
+    public string writeNumber(long number)
     {
         String text = "";
 
@@ -187,14 +233,25 @@ public class player : MonoBehaviour
         return text;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public void Initialise()
     {
         currency = 0;
         currenyAddition = 1;
         currencyMult = 1;
         loadUpgrades();
 
+        writeTextBubble("FEED ME");
+
+        StartCoroutine(LosingWeigth(diminutionTime));
+
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+
+        Initialise();
 
     }
 
