@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: be4b1273c3966c54caf28514e6d0a553
+guid: 235b8dc49c9d09a4680a564a9df85eb2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7603657927462854450
-    second: evol_01_0
+      213: -6230164786847228649
+    second: house-3086212_1920_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: evol_01_0
+      name: house-3086212_1920_0
       rect:
         serializedVersion: 2
-        x: 1103
-        y: 497
-        width: 498
-        height: 650
+        x: 0
+        y: 0
+        width: 1920
+        height: 1501
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23f9100699e958960800000000000000
-      internalID: 7603657927462854450
+      spriteID: 71dd2db92220a89a0800000000000000
+      internalID: -6230164786847228649
       vertices: []
       indices: 
       edges: []

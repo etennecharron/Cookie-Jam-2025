@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: be4b1273c3966c54caf28514e6d0a553
+guid: d2b7121864347164b8898958f2467b99
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7603657927462854450
-    second: evol_01_0
+      213: -6642935796778921466
+    second: furniture-998265_1920_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: evol_01_0
+      name: furniture-998265_1920_0
       rect:
         serializedVersion: 2
-        x: 1103
-        y: 497
-        width: 498
-        height: 650
+        x: 0
+        y: 0
+        width: 1920
+        height: 1152
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23f9100699e958960800000000000000
-      internalID: 7603657927462854450
+      spriteID: 602144fa61d8fc3a0800000000000000
+      internalID: -6642935796778921466
       vertices: []
       indices: 
       edges: []

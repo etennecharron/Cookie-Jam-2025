@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Drawing;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.VisualScripting;
@@ -24,10 +25,10 @@ public class player : MonoBehaviour
 
     private Coroutine automaticFeeder;
 
-    float sizeAddition = 0.01f;
-    float sizeDiminution = 0.005f;
+    float sizeAddition = 0.0001f;
+    float sizeDiminution = 0.00005f;
 
-    float diminutionTime = 0.1f;
+    float diminutionTime = 0.05f;
 
     public GameObject textBubbleContainer;
     public GameObject textBubble;
@@ -44,22 +45,35 @@ public class player : MonoBehaviour
     public int sizeLvl;
     public bool upgradeableSize;
     public Sprite[] monstreEvolutions;
+    public Sprite[] backgroundEvolutions;
+    public GameObject background;
     private int growBtnIndex;
 
     private int upgradeFinalIndex;
     private bool finalUpgradeAvailable;
     private int finalSize = 6;
 
-    Upgrade[] upgrades = { new UpgradeFood("Better food!", new[] {50,5000,2000,10000,50000,100000}, 1,0.001f),
-        new UpgradeMutation("EVOLVE!", new[] {3,4,5}),
+    Upgrade[] upgrades = { new UpgradeFood("Better food!", new[] {50,1000,5000,10000,20000,50000,100000}, 1,0.001f),
+        new UpgradeMutation("EVOLVE!", new[] {2,3,5}),
         new UpgradeFinal("GRAND OFFERING", new[]{1000000}),
-        new Upgrade("Good humor!", new[]{150},1),
-        new Upgrade("Buy new furnitures", new[]{1200},1),
+        new Upgrade("Tell a joke", new[]{150},2),
+        new Upgrade("Give viamins!",new[] {300}, 3),
         new UpgradeAutomatic("Hire a friend!",new[] {750},2, 3),
-        new Upgrade("Good vitamins!",new[] {300}, 3),
-        new Upgrade("Buy a cat!", new[]{1500},2),
-        new UpgradeAutomatic("Feeding machines!",
-        new[] {1},2,50)};
+        new Upgrade("Buy new furnitures", new[]{1200},4),
+        new Upgrade("Adopt a cat!", new []{2000},5),
+        new Upgrade("Teach how to dance" , new[]{3000},6),
+        new UpgradeAutomatic("Hire the neighbours!",new[]{5500},8,2),
+        new Upgrade("Plan world domination", new[]{7000},8),
+        new Upgrade("Plant some trees",new[]{8500},14),
+        new Upgrade("Explore the city", new[]{12000},20),
+        new Upgrade("Look at the birds!", new[]{20000},30),
+        new Upgrade("Create an army", new[]{30000},45),
+        new Upgrade("observe the stars!", new[]{75000},70),
+        new Upgrade("Begin world domination",new[]{15000},100),
+        new Upgrade("give a hug :D", new[]{30000},150),
+        new Upgrade("hack the nasa", new[]{60000},230),
+        new Upgrade("Conquer the world!", new[]{80000},300)
+    };
 
 
     GameObject[] upgradesBtns;
@@ -106,20 +120,24 @@ public class player : MonoBehaviour
 
         monster.GetComponent<Transform>().localScale = new Vector3(monster.GetComponent<Transform>().localScale.x + sizeAddition, monster.GetComponent<Transform>().localScale.y + sizeAddition, monster.GetComponent<Transform>().localScale.z + sizeAddition);
 
-        if (monster.GetComponent<Transform>().localScale.x > 0.90f && monster.GetComponent<Transform>().localScale.x < 1f)
+        if (sizeLvl< sizes.Length)
         {
-            textBubbleContainer.SetActive(true);
-            writeTextBubble("FEED ME");
-        }
-        else if (monster.GetComponent<Transform>().localScale.x > 1.5f)
+            if (monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl] - 0.10f && monster.GetComponent<Transform>().localScale.x < sizes[sizeLvl])
+            {
+                textBubbleContainer.SetActive(true);
+                writeTextBubble("FEED ME");
+            }
+        
+        else if (monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl]+0.5f)
         {
             textBubbleContainer.SetActive(false);
+        }
         }
         if (sizeLvl < sizes.Length)
         {
             if (monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl])
             {
-                upgradesBtns[growBtnIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
+                upgradesBtns[growBtnIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = UnityEngine.Color.yellow;
                 upgradeableSize = true;
 
             }
@@ -127,29 +145,31 @@ public class player : MonoBehaviour
         if (upgradesBtns[upgradeFinalIndex].activeInHierarchy == true && monster.GetComponent<Transform>().localScale.x > finalSize)
         {
             finalUpgradeAvailable = true;
-            upgradesBtns[upgradeFinalIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
+            upgradesBtns[upgradeFinalIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = UnityEngine.Color.yellow;
         }
 
     }
     public void GrowSmaller()
     {
-        if(monster.GetComponent<Transform>().localScale.x < 1.3f && monster.GetComponent<Transform>().localScale.x > 1f)
+        if(sizeLvl < sizes.Length)
         {
-            textBubbleContainer.SetActive(true);
-            writeTextBubble("FEED ME");
-        }
-
-        if (monster.GetComponent<Transform>().localScale.x > 0.4f)
+            if (monster.GetComponent<Transform>().localScale.x < sizes[sizeLvl] + 0.3 && monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl])
+            {
+                textBubbleContainer.SetActive(true);
+                writeTextBubble("FEED ME");
+            }
+        
+        if (monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl] -0.60  && sizeLvl != 0 ||   monster.GetComponent<Transform>().localScale.x > 0.4f)
         {
             monster.GetComponent<Transform>().localScale = new Vector3(monster.GetComponent<Transform>().localScale.x - sizeDiminution, monster.GetComponent<Transform>().localScale.y - sizeDiminution, monster.GetComponent<Transform>().localScale.z - sizeDiminution);
 
-            if (monster.GetComponent<Transform>().localScale.x < 0.75f && monster.GetComponent<Transform>().localScale.x > 0.50f)
+            if (monster.GetComponent<Transform>().localScale.x < sizes[sizeLvl] - 0.25 && monster.GetComponent<Transform>().localScale.x > sizes[sizeLvl] - 0.50 && sizeLvl != 0 || monster.GetComponent<Transform>().localScale.x < 0.75f && monster.GetComponent<Transform>().localScale.x > 0.5f)
             {
                 writeTextBubble("D:");
             }
-            else if (monster.GetComponent<Transform>().localScale.x < 0.50f)
+            else if (monster.GetComponent<Transform>().localScale.x < sizes[sizeLvl] - 0.50 && sizeLvl != 0|| monster.GetComponent<Transform>().localScale.x < 0.50f)
             {
-                writeTextBubble("X - X");
+                writeTextBubble(">:C");
             }
         }
         else
@@ -158,7 +178,7 @@ public class player : MonoBehaviour
             gameScreen.SetActive(false);
 
         }
-
+        }
 
     }
 
@@ -204,15 +224,16 @@ public class player : MonoBehaviour
                         if (sizeLvl < monstreEvolutions.Length)
                         {
                             monster.GetComponent<UnityEngine.UI.Image>().sprite = monstreEvolutions[sizeLvl];
+                            background.GetComponent<UnityEngine.UI.Image>().sprite = backgroundEvolutions[sizeLvl];
+
+
                         }
 
                         currencyMult += upgrades[index].GetMult();
                         upgrades[index].upgradeLvl();
 
                         upgradesBtns[index].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Evol " + (sizeLvl + 1) + " : GROW BIGGER";
-
-                        monster.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
-                        upgradesBtns[growBtnIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = Color.black;
+                        upgradesBtns[growBtnIndex].transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().color = UnityEngine.Color.black;
                     }
                 }
                 // IF IS AN AUTOMATIC UPGRADE TYPE
@@ -373,6 +394,7 @@ public class player : MonoBehaviour
         }
 
         monster.GetComponent<UnityEngine.UI.Image>().sprite = monstreEvolutions[0];
+        background.GetComponent<UnityEngine.UI.Image>().sprite = backgroundEvolutions[0];
 
         StartCoroutine(LosingWeigth(diminutionTime));
         refreshMoney();

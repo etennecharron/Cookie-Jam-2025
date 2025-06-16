@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: be4b1273c3966c54caf28514e6d0a553
+guid: 743cea96e36bf5847aaf9e5668631bb5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7603657927462854450
-    second: evol_01_0
+      213: -8334445150969670678
+    second: london-7965770_1920_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: evol_01_0
+      name: london-7965770_1920_0
       rect:
         serializedVersion: 2
-        x: 1103
-        y: 497
-        width: 498
-        height: 650
+        x: 0
+        y: 0
+        width: 1920
+        height: 1280
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23f9100699e958960800000000000000
-      internalID: 7603657927462854450
+      spriteID: ae3d9700b4a165c80800000000000000
+      internalID: -8334445150969670678
       vertices: []
       indices: 
       edges: []
