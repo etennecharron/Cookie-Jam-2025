@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class UpgradeAutomatic : Upgrade
 {
-    public int second = 3;
+    public int second; //= 3;
     public float[] time;
 
-    public UpgradeAutomatic(string name, int[] cost, int addition) : base(name, cost, addition)
+    public UpgradeAutomatic(string name, int[] cost, int addition, int second) : base(name, cost, addition)
     {
+        /*
         this.time = new float[cost.Length];
 
         int j = time.Length+1;
@@ -16,11 +17,17 @@ public class UpgradeAutomatic : Upgrade
             time[i] = second * j / time.Length;
             j--;
         }
+        */
+        this.second = second;
     }
     
     public float GetTime(int index)
     {
         return this.time[index];
+    }
+    public int GetSecond()
+    {
+        return this.second;
     }
 
     public override void Skill()

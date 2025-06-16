@@ -1,4 +1,4 @@
-using Mono.Cecil;
+
 using UnityEngine;
 
 public class UpgradeMutation : Upgrade
@@ -18,5 +18,14 @@ public class UpgradeMutation : Upgrade
     {
         Debug.Log("upgrade mutation");
       
+    }
+ 
+    public override void upgradeLvl()
+    {
+        if (GetLvl() < getMaxLvl())
+        {
+            SetAddition(getAddition() * 2);
+            SetLvl(GetLvl() + 1);
+        }
     }
 }

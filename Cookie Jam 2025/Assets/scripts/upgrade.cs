@@ -62,6 +62,11 @@ public class Upgrade
     {
         this.addition = mult;
     }
+    public int GetCostLength()
+    {
+        return this.cost.Length;
+    }
+
     public virtual void upgradeLvl()
     {
         if (GetLvl() < getMaxLvl())
